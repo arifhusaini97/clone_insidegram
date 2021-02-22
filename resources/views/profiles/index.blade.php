@@ -23,7 +23,7 @@
     </div>
     <div class="row">
         @foreach($user->posts as $post)
-        <div class="col-4 pt-5 pb-4"><img src="/storage/{{$post->image}}" class="w-100 h-100"></div>
+        <div class="col-4 pt-5 pb-4"><a href="/p/{{ $post->id }}"><img src="/storage/{{$post->image}}" class="w-100 h-100"></div>
         @endforeach
     </div>
 </div>

@@ -60,4 +60,12 @@ class PostsController extends Controller
 
         return redirect('/profile/'.auth()->user()->id);
     }
+
+    
+    public function show(\App\Models\Post $post){
+        // dd($post);
+        //can also do like this
+        // return view('posts.show',['post' => $post]);
+        return view('posts.show', compact('post'));
+    }
 }
