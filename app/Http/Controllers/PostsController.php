@@ -68,4 +68,8 @@ class PostsController extends Controller
         // return view('posts.show',['post' => $post]);
         return view('posts.show', compact('post'));
     }
+
+    // public function edit(\App\Models\User $user){
+        
+    // }
 }

@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory;
-    public function user(){
+
+    //When Fillable error, can use the $guarded
+    protected $guarded = [];
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }
