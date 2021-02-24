@@ -25,7 +25,9 @@ class ProfilesController extends Controller
     //can delete 'index(\App\Models\' beacuse we already declare aboce
     public function index(User $user)
     {
-        return view('profiles.index', compact('user'));
+        $follows =(auth()->user())?auth()->user()->following->contains($user->id):false;
+        // dd($follows);
+        return view('profiles.index', compact('user', 'follows'));
     }
 
     public function edit(User $user)
