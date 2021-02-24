@@ -12,6 +12,15 @@ class Profile extends Model
     //When Fillable error, can use the $guarded
     protected $guarded = [];
 
+    public function profileImage(){
+
+        //This doesn't work
+        //return '/storage/'.($this->image) ? $this->image : 'profile/XiYx5c6LgN2Sln6nJMujkjHdBIY907K90ZKxsZiv.png';
+        
+        $imagePath=($this->image) ? $this->image : 'profile/XiYx5c6LgN2Sln6nJMujkjHdBIY907K90ZKxsZiv.png';
+        return '/storage/'.$imagePath;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

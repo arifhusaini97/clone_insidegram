@@ -61,10 +61,14 @@ class ProfilesController extends Controller
             $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
             $image->save();
 
+            $imageArray = ['image' => $imagePath];
+
             //this is the atleast we need to do for protection with  imagePath
             auth()->user()->profile->update(array_merge(
                 $data,
-                ['image' => $imagePath]
+                //This supposed to have problem like in Youtube, but working fine here.
+                // ['image' => $imagePath]
+                $imageArray ?? []
             ));
         } else {
             auth()->user()->profile->update($data);
