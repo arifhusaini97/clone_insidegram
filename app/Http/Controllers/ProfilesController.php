@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 
 class ProfilesController extends Controller
@@ -25,9 +26,45 @@ class ProfilesController extends Controller
     //can delete 'index(\App\Models\' beacuse we already declare aboce
     public function index(User $user)
     {
-        $follows =(auth()->user())?auth()->user()->following->contains($user->id):false;
+        $follows = (auth()->user()) ? auth()->user()->following->contains($user->id) : false;
         // dd($follows);
-        return view('profiles.index', compact('user', 'follows'));
+        //to make cache
+        // $postCount = $user->posts->count();
+        // $followersCount = $user->profile->followers->count();
+        // $followingCount = $user->following->count();
+
+        $postCount = Cache::remember(
+            //this is the key
+            'count.posts.' . $user->id,
+            //how long the cache store
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->posts->count();
+            }
+        );
+
+        $followersCount = Cache::remember(
+            //this is the key
+            'count.followers.' . $user->id,
+            //how long the cache store
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->profile->followers->count();
+            }
+        );
+
+        $followingCount= Cache::remember(
+            //this is the key
+            'count.following.' . $user->id,
+            //how long the cache store
+            now()->addSeconds(30),
+            function () use ($user) {
+                return $user->following->count();
+            }
+        );
+
+
+        return view('profiles.index', compact('user', 'follows', 'postCount', 'followersCount', 'followingCount'));
     }
 
     public function edit(User $user)
